@@ -1,0 +1,36 @@
+using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+
+public class Control : MonoBehaviour
+{
+    public float maxSpeed = 10.0f;
+    public AnimationCurve movementCurve = AnimationCurve.Linear(0, 0, 1, 1);
+
+    public Image associatedTri;
+    private float boostJuice = 1.0f;
+	
+	// Update is called once per frame
+	void Update ()
+    {
+        float movementX = Input.GetAxis("Horizontal");
+        float movementZ = Input.GetAxis("Vertical");
+        float triggerJuice = -Input.GetAxis("Trigger");
+
+        triggerJuice += 1.2f;
+
+        float modulatedTriggerJuice = triggerJuice * 0.01f;
+        if(boostJuice >= modulatedTriggerJuice)
+
+        float curvedMovementX = movementCurve.Evaluate(movementX);
+        float curvedMovementZ = movementCurve.Evaluate(movementZ);
+
+        rigidbody.velocity = new Vector3(curvedMovementX * maxSpeed * triggerJuice * Time.deltaTime,
+                                         rigidbody.velocity.y * triggerJuice * Time.deltaTime,
+                                         rigidbody.velocity.z * triggerJuice * Time.deltaTime);
+
+        rigidbody.velocity = new Vector3(rigidbody.velocity.x * triggerJuice * Time.deltaTime,
+                                         rigidbody.velocity.y * triggerJuice * Time.deltaTime,
+                                         curvedMovementZ * maxSpeed * triggerJuice * Time.deltaTime);
+	}
+}
