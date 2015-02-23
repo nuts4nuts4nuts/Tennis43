@@ -18,6 +18,7 @@ public class Control : MonoBehaviour
     public float baseCharge = 1.0f;
     private float currentCharge = 1.0f;
     private SphereCollider hitRange;
+    private float hitCoefficient = 200;
 
     [HideInInspector]
     public List<BallScript> currentBalls;
@@ -76,10 +77,10 @@ public class Control : MonoBehaviour
                     GameObject ball = currentBall.gameObject;
                     ball.transform.forward = gameObject.transform.forward;
 
-                    Vector3 newVelo = rigidbody.velocity;
+                    Vector3 newVelo = new Vector3(movementX, 0, 0);
 
                     newVelo.z += currentCharge * 200 * Time.deltaTime;
-                    newVelo.y += currentCharge * 100 * Time.deltaTime;
+                    newVelo.y += currentCharge * 200 * Time.deltaTime;
 
                     ball.rigidbody.velocity = newVelo;
                 }
